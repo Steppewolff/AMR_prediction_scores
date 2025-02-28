@@ -1,0 +1,34 @@
+{
+    "PA0004": {
+        "CIP": {
+            "mutation_type": "GOF",
+            "effect": "+",
+            "value": 1,
+            "regulators": "NO",
+            "alleles": [
+                466,
+                467,
+                468
+            ]
+        }
+    },
+    "PA0425": {
+        "CAZ": {
+            "mutation_type": "LOF",
+            "effect": "-",
+            "value": 0.5,
+            "regulators": "YES",
+            "loci": [
+                "PA0424",
+                "PA2020",
+                "PA3574",
+                "PA3721"
+            ],
+            "alleles": [
+                466,
+                467,
+                468
+            ]
+        }
+    }
+}
