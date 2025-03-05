@@ -1,7 +1,7 @@
 {
     "PA0004": {
         "CIP": {
-            "mutation_type": "GOF",
+            "mutation_type": "GOFO",
             "effect": "+",
             "simple_value": 1,
             "doble_value": 1,
@@ -65,7 +65,7 @@
                     "doble_value": 0.5,
                     "alleles": {
                     }
-				},
+                },
                 "PA2020": {
                     "mutation_type": "LOF",
                     "effect": "+",
@@ -90,6 +90,7 @@
                     "alleles": {
                     }
                 }
+            }
         },
         "CIP": {
             "mutation_type": "LOF",
@@ -107,7 +108,7 @@
                     "doble_value": 0.5,
                     "alleles": {
                     }
-				},
+                },
                 "PA2020": {
                     "mutation_type": "LOF",
                     "effect": "+",
@@ -132,6 +133,7 @@
                     "alleles": {
                     }
                 }
+            }
         },
         "C/T": {
             "mutation_type": "LOF",
@@ -221,7 +223,7 @@
                     "doble_value": 0.5,
                     "alleles": {
                     }
-				},
+                },
                 "PA2020": {
                     "mutation_type": "LOF",
                     "effect": "+",
@@ -246,6 +248,7 @@
                     "alleles": {
                     }
                 }
+            }
         },
         "CIP": {
             "mutation_type": "LOF",
@@ -263,7 +266,7 @@
                     "doble_value": 0.5,
                     "alleles": {
                     }
-				},
+                },
                 "PA2020": {
                     "mutation_type": "LOF",
                     "effect": "+",
@@ -288,6 +291,7 @@
                     "alleles": {
                     }
                 }
+            }
         },
         "C/T": {
             "mutation_type": "LOF",
@@ -377,7 +381,7 @@
                     "doble_value": 0.5,
                     "alleles": {
                     }
-				},
+                },
                 "PA2020": {
                     "mutation_type": "LOF",
                     "effect": "+",
@@ -402,6 +406,7 @@
                     "alleles": {
                     }
                 }
+            }
         },
         "CIP": {
             "mutation_type": "LOF",
@@ -419,7 +424,7 @@
                     "doble_value": 0.5,
                     "alleles": {
                     }
-				},
+                },
                 "PA2020": {
                     "mutation_type": "LOF",
                     "effect": "+",
@@ -444,6 +449,7 @@
                     "alleles": {
                     }
                 }
+            }
         },
         "C/T": {
             "mutation_type": "LOF",
@@ -500,4 +506,4 @@
             }
         }
     }
-        }
+}
