@@ -156,9 +156,9 @@ def evaluate_regulators(gene, condition, records):
 
 def main():
     # Cargar condiciones desde el JSON
-    scores_json = load_scores("SCORES_100WT.json")
+    scores_json = load_scores("FuentesInformacion/SCORES_100WT.json")
     # Cargar registros del CSV (se asume que el archivo tiene 14 columnas separadas por comas)
-    records = load_csv("PA001.snps.withoutcommon.curated")
+    records = load_csv("FuentesInformacion/PA001.snps.withoutcommon.curated")
 
     # Inicializar diccionario de puntajes para cada antibiótico
     antibiotics = ["CIP", "CAZ", "MER", "C/T", "TOB"]
@@ -180,7 +180,7 @@ def main():
                 final_scores[ab] += score
 
     # Mostrar el puntaje final por antibiótico
-    print("Puntajes finales por antibiótico:")
+    print("Total scores by ATB:")
     for ab, score in final_scores.items():
         print(f"{ab}: {score}")
 
