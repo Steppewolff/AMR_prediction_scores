@@ -1,4 +1,4 @@
-import automatización_rp_v2
+import automatizacion_rp
 import json
 import csv
 
@@ -26,4 +26,4 @@ if __name__ == "__main__":
     # Cargar registros del CSV (se asume que el archivo tiene 14 columnas separadas por comas)
     records = load_csv("FuentesInformacion/PA001.snps.withoutcommon.curated")
 
-    automatización_rp_v2.main(scores_json, records)
+    automatizacion_rp.main(scores_json, records)
