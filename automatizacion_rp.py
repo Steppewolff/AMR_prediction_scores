@@ -79,7 +79,7 @@ def evaluate_GOF(record, alleles):
     ####
     ## ¿Duplicado con el anterior return "simple" si pasa por uno podría pasar por el otro?
     ####
-    return "simple"
+    # return "simple"
 
 
 def evaluate_condition(record, condition):
@@ -102,6 +102,18 @@ def evaluate_condition(record, condition):
         else:
             reg_result['reg_eval'] = 0
             reg_result['value'] = 0
+
+    elif mut_type == "LOFN":
+        if evaluate_LOF == 'LOF':
+            reg_result['reg_eval'] = 0
+            reg_result['value'] = 0
+        ## Si es un SNP en los genes de bomba de mex_s, se puede considerar directamente que está activa? o hay que evaluar algo más?  ******************************************************************************************
+        elif evaluate_LOF == 'SNP':
+            reg_result['reg_eval'] = 1
+            reg_result['value'] = eff * condition["simple_value"]
+        else:
+            reg_result['reg_eval'] = 1
+            reg_result['value'] = eff * condition["doble_value"]
 
     elif mut_type in ("GOF", "GOFO"):
         result = evaluate_GOF(record, condition["alleles"])
@@ -156,6 +168,8 @@ def evaluate_regulators(gene, condition, records):
     regulator_pass = False
     regulator_value = 0
     for sub in sub_records:
+        if regulator_pass:
+            break
     # for sub in subloci:
         sub_cond = subloci[sub[7]]
         sub_recs = [r for r in records if r[7] == sub[7]]
@@ -169,8 +183,6 @@ def evaluate_regulators(gene, condition, records):
                 regulator_value += regulator_condition['value']
 
                 break
-        if regulator_pass:
-            break
 
     # Evaluar la condición principal en los registros del gen
     main_score = 0
@@ -210,30 +222,55 @@ def main(scores_json, records):
     # Inicializar diccionario de scores para cada antibiótico
     antibiotics = ["CIP", "CAZ", "MER", "C/T", "TOB"]
     final_scores = {ab: 0 for ab in antibiotics}
+    final_score_eval = {ab: [] for ab in antibiotics}
 
-    gene_records = [r for r in records if r[7] in scores_json].to_dict()
+    gene_records = [r for r in records if r[7] in scores_json]
+    gene_list = [r[7] for r in gene_records]
 
     # Recorrer cada gen (locus) definido en el JSON
     for gene, conditions in scores_json.items():
-        # Para cada antibiótico (condición) en el gen
+        # Caso en el que son varios genes principales, no los reguladores los que determinan si se suma score o no
+        if ',' in gene:
+            genes = gene.split(',')
+            gene_records_test = [r for r in records if r[7] in genes]
+            gene_active = True
+            score = 0
 
-        if gene in gene_records:
+            # Siempre van a tener reguladores
+            for gene_record in gene_records_test:
+                if evaluate_LOF(gene_record) == 'LOF':
+                    gene_active = False
+                    break
+
+            if gene_active:
+                for ab, cond in conditions.items():
+                    for sub_gene in genes:
+                        score = evaluate_regulators(sub_gene, cond, records)
+                        final_scores[ab] += score
+                        final_score_eval[ab].append({sub_gene: score})
+
+        # Para cada antibiótico (condición) en el gen
+        if gene in gene_list:
             mutations = [r for r in gene_records if r[7] == gene]
             for ab, cond in conditions.items():
                 # Se verifica el tipo de evaluación según el campo "regulators"
-                # if cond.get("regulators", "NO") == "NO":
                 if cond.get("regulators") == "NO":
                     # Se filtran los registros cuya columna 8 (índice 7) coincide con el gen
                     for mutation in mutations:
-                        final_scores[ab] += evaluate_condition(mutation, cond)['value']
+                        score = evaluate_condition(mutation, cond)['value']
+                        final_scores[ab] += score
+                        final_score_eval[ab].append({gene: score})
+
                 elif cond.get("regulators") == "YES":
                     # Para condiciones con reguladores, se evalúa con la función especializada
                     score = evaluate_regulators(gene, cond, records)
                     final_scores[ab] += score
-                    pass
+                    final_score_eval[ab].append({gene: score})
 
 
     # Mostrar el score final por antibiótico
     print("Total scores by ATB:")
     for ab, score in final_scores.items():
         print(f"{ab}: {score}")
+    for ab, scores in final_score_eval.items():
+        print(f"{ab}: {scores}")
